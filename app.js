@@ -3,7 +3,7 @@
 // 1. CONFIGURATION ----------------------------------------------------------
 // Replace these with your real values. While they still say "YOUR_...",
 // the site runs in DEMO MODE (orders are not sent anywhere, so you can test safely).
-const SUPABASE_URL = "https://hrbdelmxgrktphoixoze.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://hrbdelmxgrktphoixoze.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhyYmRlbG14Z3JrdHBob2l4b3plIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MDY2MzEsImV4cCI6MjEwODQ4MjYzMX0.TzO6eZShelYDwRRh5hs3wNd_imsnROP5nj5LyKKfdUU";
 const DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1563874988308561961/pA03ZYMzrs4QSFQbDPmTGSPXdELMQv0ePxIKuM0_gwP5DawFBUXYiBR8b0ZHiN8pLoF6";
 const GCASH_NUMBER = "0967-497-0565"; // <- put your real GCash number here
@@ -29,6 +29,11 @@ const isConfigured = v => v && !v.startsWith("YOUR_");
 const sb = (isConfigured(SUPABASE_URL) && isConfigured(SUPABASE_ANON_KEY) && window.supabase)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
+
+if (!sb) {
+    if (!window.supabase) console.error("[TAL] Supabase library did not load (blocked or offline). Orders will NOT be saved to the database.");
+    else console.error("[TAL] SUPABASE_URL / SUPABASE_ANON_KEY are not set in app.js. Orders will NOT be saved to the database.");
+}
 
 let cart = loadCart();
 
@@ -214,36 +219,41 @@ async function submitOrder(event) {
         total_amount: cartTotal()
     };
 
-    try {
-        // A. Save to Supabase (skipped in demo mode)
-        if (sb) {
+    // A. Save to Supabase (the database record)
+    let saved = false;
+    if (sb) {
+        try {
             const { error } = await sb.from("orders").insert([order]);
             if (error) throw error;
-        } else {
-            console.info("DEMO MODE – order not saved:", order);
+            saved = true;
+        } catch (err) {
+            console.error("[TAL] Supabase save FAILED:", err);
         }
-
-        // B. Notify the kitchen on Discord (never blocks the order if it fails)
-        await sendDiscordAlert(order);
-
-        // C. Success
-        cart = [];
-        updateCartUI();
-        form.reset();
-        toggleGCash();
-        closeCheckout();
-        showToast("🎉 Order placed! We'll contact you shortly.", 5000);
-    } catch (err) {
-        console.error(err);
-        showError("Sorry, we couldn't place your order. Please try again or call +63 967 497 0565.");
-    } finally {
-        btn.disabled = false;
-        btn.textContent = "Place Order";
+    } else {
+        console.error("[TAL] Order NOT saved to database (Supabase not configured):", order);
     }
+
+    // B. Notify the kitchen on Discord (so an order is never lost if the database fails)
+    const alerted = await sendDiscordAlert(order);
+
+    btn.disabled = false;
+    btn.textContent = "Place Order";
+
+    if (!saved && !alerted) {
+        return showError("Sorry, we couldn't place your order. Please try again or call +63 967 497 0565.");
+    }
+
+    // C. Success
+    cart = [];
+    updateCartUI();
+    form.reset();
+    toggleGCash();
+    closeCheckout();
+    showToast("🎉 Order placed! We'll contact you shortly.", 5000);
 }
 
 async function sendDiscordAlert(order) {
-    if (!isConfigured(DISCORD_WEBHOOK_URL)) return;
+    if (!isConfigured(DISCORD_WEBHOOK_URL)) return false;
 
     const itemList = order.items.map(i => `• ${i.name} x${i.qty} (₱${i.price * i.qty})`).join("\n");
     const message = {
@@ -263,13 +273,15 @@ async function sendDiscordAlert(order) {
     };
 
     try {
-        await fetch(DISCORD_WEBHOOK_URL, {
+        const res = await fetch(DISCORD_WEBHOOK_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(message)
         });
+        return res.ok;
     } catch (e) {
-        console.error("Discord alert failed:", e);
+        console.error("[TAL] Discord alert failed:", e);
+        return false;
     }
 }
 
