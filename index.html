@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tinamai at Lumpken | Best When Hot</title>
+    <meta name="description" content="Freshly made tinamai (siomai) and lumpken (chicken lumpia) in Las Piñas City. Meryenda approved! Order online.">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS client (used for saving orders) -->
+    <script src="https://hrbdelmxgrktphoixoze.supabase.co/rest/v1/"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="#top" class="brand">
+            <img src="resources/Transparent IM Logo.png" alt="Tinamai at Lumpken logo" width="48" height="48">
+            <span>Tinamai at Lumpken</span>
+        </a>
+        <nav class="nav-links">
+            <a href="#menu">Menu</a>
+            <a href="#how-to-order">How to Order</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button id="cart-btn" type="button" aria-label="Open cart">
+            🛒 <span class="cart-label">Cart</span> <span id="cart-count" class="cart-count">0</span>
+        </button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+        <div class="hero-text">
+            <p class="tagline">🔥 Best when hot</p>
+            <h1>Meryenda, <em>approved!</em></h1>
+            <p class="hero-sub">Freshly made tinamai (tinapang siomai) and crispy lumpken (lumpiang chicken), delivered right to your door in Las Piñas.</p>
+            <a href="#menu" class="btn btn-red">Order Now</a>
+        </div>
+        <div class="hero-logo">
+            <img src="resources/Transparent IM Logo.png" alt="Tinamai at Lumpken – Meryenda Approved, Best When Hot" width="360" height="360">
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <main>
+        <section class="section" id="menu">
+            <h2 class="section-title">Our Menu</h2>
+            <p class="section-sub">Simple, tasty, and made for sharing. More flavors coming soon!</p>
+
+            <h3 class="category-title">🥟 Tinamai <small>(Tinapang Siomai)</small></h3>
+            <div class="menu-grid" id="grid-tinamai"></div>
+
+            <h3 class="category-title">🌯 Lumpken <small>(Lumpiang Chicken)</small></h3>
+            <div class="menu-grid" id="grid-lumpken"></div>
+        </section>
+
+        <!-- HOW TO ORDER -->
+        <section class="section steps-section" id="how-to-order">
+            <h2 class="section-title">How to Order</h2>
+            <div class="steps">
+                <div class="step"><span class="step-num">1</span><h4>Pick your treats</h4><p>Tap “Add” on your favorites.</p></div>
+                <div class="step"><span class="step-num">2</span><h4>Check your cart</h4><p>Adjust quantities, then checkout.</p></div>
+                <div class="step"><span class="step-num">3</span><h4>Enter your details</h4><p>Name, number, and delivery address.</p></div>
+                <div class="step"><span class="step-num">4</span><h4>Enjoy it hot!</h4><p>We’ll contact you to confirm your order.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER / CONTACT -->
+    <footer class="footer" id="contact">
+        <img src="resources/Transparent IM Logo.png" alt="" width="72" height="72">
+        <h3>Tinamai at Lumpken</h3>
+        <p>📞 <a href="tel:+639674970565">+63 967 497 0565</a></p>
+        <p>📍 <a href="https://www.google.com/maps/search/?api=1&query=Verdant+Ave+Pamplona+Tres+Las+Pinas+City" target="_blank" rel="noopener">Verdant Ave., Pamplona Tres, Las Piñas City</a></p>
+        <p class="copyright">&copy; <span id="year"></span> Tinamai at Lumpken. All rights reserved.</p>
+    </footer>
+
+    <!-- Dark overlay behind cart -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- CART DRAWER -->
+    <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping cart">
+        <div class="cart-header">
+            <h3>Your Order</h3>
+            <button type="button" id="cart-close" class="icon-btn" aria-label="Close cart">✖</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total-row"><span>Total</span><strong>₱<span id="cart-total">0.00</span></strong></div>
+            <button id="checkout-btn" class="btn btn-red full-width" type="button" disabled>Proceed to Checkout</button>
+        </div>
+    </aside>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkout-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <div class="modal-content">
+            <button type="button" id="checkout-close" class="icon-btn close-btn" aria-label="Close">&times;</button>
+            <h2 id="checkout-title">Complete Your Order</h2>
+
+            <form id="checkout-form" novalidate>
+                <label for="cust-name">Full Name</label>
+                <input type="text" id="cust-name" required placeholder="e.g. Juan Dela Cruz" autocomplete="name">
+
+                <label for="cust-phone">Contact Number</label>
+                <input type="tel" id="cust-phone" required placeholder="e.g. 09171234567" autocomplete="tel">
+
+                <label for="cust-address">Delivery Address</label>
+                <textarea id="cust-address" required rows="3" placeholder="House/Unit no., Street, Barangay, City" autocomplete="street-address"></textarea>
+
+                <label for="cust-notes">Notes <span class="optional">(optional)</span></label>
+                <input type="text" id="cust-notes" placeholder="e.g. Landmark, extra sauce">
+
+                <label for="payment-method">Payment Method</label>
+                <select id="payment-method">
+                    <option value="COD">Cash on Delivery (COD)</option>
+                    <option value="GCash">GCash</option>
+                </select>
+
+                <div id="gcash-box" class="gcash-box" hidden>
+                    <p>Send payment to <strong id="gcash-number">0917-XXX-XXXX</strong></p>
+                    <p>Please keep a screenshot of your receipt to show upon delivery.</p>
+                </div>
+
+                <div class="order-summary">
+                    <span>Order total</span>
+                    <strong>₱<span id="modal-total">0.00</span></strong>
+                </div>
+
+                <p id="form-error" class="form-error" role="alert" hidden></p>
+
+                <button type="submit" id="submit-order-btn" class="btn btn-red full-width">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUCCESS TOAST -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
