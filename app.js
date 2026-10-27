@@ -14,14 +14,23 @@ const GCASH_NUMBER = "0967-497-0565"; // <- put your real GCash number here
 // If your file is .png or .webp instead of .jpg, just change the extension in the "image" line.
 // If a photo is missing, the card automatically shows an emoji instead.
 const MENU = [
-    { id: 1, category: "tinamai", name: "Original Tinamai", price: 49, serving: "4 pcs", image: "resources/og-tinamai.jpg", emoji: "🥟", style: "original",
+    { id: 1, category: "tinamai", name: "Classic Tinamai", price: 49, serving: "4 pcs", image: "resources/classic-tinamai.png", emoji: "🥟", style: "original",
       description: "Traditional tinamai with savory seasoning and fresh ingredients." },
-    { id: 2, category: "tinamai", name: "Spicy Tinamai (Chili-Garlic)", price: 59, serving: "4 pcs", image: "resources/spicy-tinamai.jpg", emoji: "🌶️", style: "spicy",
+    { id: 2, category: "tinamai", name: "Spicy Tinamai (Chili-Garlic)", price: 59, serving: "4 pcs", image: "resources/spicy-tinamai.png", emoji: "🌶️", style: "spicy",
       description: "Tinamai with chili, garlic, and spicy seasoning." },
-    { id: 3, category: "tinamai", name: "Cheesy Tinamai", price: 59, serving: "4 pcs", image: "resources/cheesy-tinamai.jpg", emoji: "🧀", style: "cheesy",
+    { id: 3, category: "tinamai", name: "Cheesy Tinamai", price: 59, serving: "4 pcs", image: "resources/cheesy-tinamai.png", emoji: "🧀", style: "cheesy",
       description: "Tinamai filled with creamy and flavorful cheese." },
-    { id: 4, category: "lumpken", name: "Classic Lumpken", price: 39, serving: "5 pcs (cooked)", image: "resources/lumpken.jpg", emoji: "🌯", style: "lumpken",
-      description: "Finely minced chicken, carrots, and savory seasonings, wrapped and fried."}
+    { id: 4, category: "tinamai", name: "Tinamai with Rice", price: 59, serving: "4 pcs + rice", image: "resources/tinamai-with-rice.png", emoji: "🍚", style: "cheesy",
+      description: "Savory tinamai served with steamed rice." },
+    { id: 5, category: "lumpken", name: "Classic Lumpken", price: 39, serving: "5 pcs (cooked)", image: "resources/classic-lumpken.png", emoji: "🌯", style: "lumpken",
+      description: "Finely minced chicken, carrots, and savory seasonings, wrapped and fried." },
+    { id: 6, category: "lumpken", name: "Malunggay & Veggie Sneak", price: 39, serving: "6 pcs (cooked)", image: "resources/veggie-sneak-lumpken.png", emoji: "🥗", style: "lumpken",
+      description: "Chicken with malunggay leaves and finely chopped vegetables." },
+    { id: 7, category: "lumpken", name: "Curry Chicken", price: 39, serving: "5 pcs (cooked)", image: "resources/curry-lumpken.png", emoji: "🥔", style: "lumpken",
+      description: "Ground chicken, diced potatoes, curry aromatics." },
+    { id: 8, category: "lumpken", name: "Frozen Lumpken", price: 120, serving: "12 pcs (cooked)", image: "resources/frozen-lumpken.png", emoji: "❄️", style: "lumpken",
+      description: "Pre-rolled and flash-frozen for air-frying or deep-frying at home (classic or veggie)."}
+    
 ];
 
 // 3. SETUP ------------------------------------------------------------------
