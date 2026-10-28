@@ -28,7 +28,7 @@ const MENU = [
       description: "Chicken with malunggay leaves and finely chopped vegetables." },
     { id: 7, category: "lumpken", name: "Curry Chicken", price: 39, serving: "5 pcs (cooked)", image: "resources/curry-lumpken.png", emoji: "🥔", style: "lumpken",
       description: "Ground chicken, diced potatoes, curry aromatics." },
-    { id: 8, category: "lumpken", name: "Frozen Lumpken", price: 120, serving: "12 pcs (cooked)", image: "resources/frozen-lumpken.png", emoji: "❄️", style: "lumpken",
+    { id: 8, category: "lumpken", name: "Frozen Lumpken", price: 120, serving: "12 pcs (frozen)", image: "resources/frozen-lumpken.png", emoji: "❄️", style: "lumpken",
       description: "Pre-rolled and flash-frozen for air-frying or deep-frying at home (classic or veggie)."}
     
 ];
