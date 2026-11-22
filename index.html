@@ -21,14 +21,23 @@
             <img src="resources/Transparent IM Logo.png" alt="Tinamai at Lumpken logo" width="48" height="48">
             <span>Tinamai at Lumpken</span>
         </a>
-        <nav class="nav-links">
+        <nav class="nav-links" id="nav-links" aria-label="Main">
+            <a href="#top">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
             <a href="#menu">Menu</a>
-            <a href="#how-to-order">How to Order</a>
+            <a href="#news">News</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#team">Team</a>
             <a href="#contact">Contact</a>
         </nav>
-        <button id="cart-btn" type="button" aria-label="Open cart">
-            🛒 <span class="cart-label">Cart</span> <span id="cart-count" class="cart-count">0</span>
-        </button>
+        <div class="nav-actions">
+            <button id="auth-btn" class="nav-btn" type="button">Sign in</button>
+            <button id="cart-btn" type="button" aria-label="Open cart">
+                🛒 <span class="cart-label">Cart</span> <span id="cart-count" class="cart-count">0</span>
+            </button>
+            <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links">☰</button>
+        </div>
     </header>
 
     <!-- HERO -->
@@ -44,8 +53,72 @@
         </div>
     </section>
 
-    <!-- MENU -->
     <main>
+        <!-- ABOUT THE PRODUCT -->
+        <section class="section" id="about">
+            <h2 class="section-title">About the Product</h2>
+            <p class="section-sub">Two Filipino comfort foods, one smoky and one crispy.</p>
+            <div class="about-grid">
+                <article class="about-card about-usok">
+                    <h3>Tinamai <small>Usok</small></h3>
+                    <p>Tinamai is classic siomai made with <strong>tinapa</strong> (smoked fish). The smoky, savory flavor sets it apart from the usual siomai, so every bite tastes familiar and new at the same time.</p>
+                </article>
+                <article class="about-card about-crispy">
+                    <h3>Lumpken <small>Crispy</small></h3>
+                    <p>Lumpken is lumpia filled with tender, well-seasoned <strong>chicken</strong>. It is wrapped in a thin spring roll wrapper and fried until golden, so you get a crunch and a juicy filling in each bite.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- FEATURES & BENEFITS -->
+        <section class="section" id="features">
+            <h2 class="section-title">Features &amp; Benefits</h2>
+            <p class="section-sub">What goes into every order, and what it means for you.</p>
+            <div class="fb-grid">
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">🐟</span>
+                    <h3>A smoky flavor ordinary siomai doesn’t have</h3>
+                    <p>Tinapa (smoked fish) siomai</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">💸</span>
+                    <h3>Fits a student allowance and a worker’s budget</h3>
+                    <p>Prices start at ₱39</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">🍚</span>
+                    <h3>A full meal in one order</h3>
+                    <p>Tinamai with rice for ₱59</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">🍗</span>
+                    <h3>A crunchy choice if you skip seafood</h3>
+                    <p>Chicken lumpia, fried golden</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">🥬</span>
+                    <h3>Greens that picky eaters won’t notice</h3>
+                    <p>Malunggay &amp; Veggie Sneak</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">❄️</span>
+                    <h3>Hot lumpken from your own kitchen, anytime</h3>
+                    <p>Frozen Lumpken, 12 pcs</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">📱</span>
+                    <h3>Order from home and pay your way</h3>
+                    <p>Online ordering with COD or GCash</p>
+                </article>
+                <article class="fb-card">
+                    <span class="fb-icon" aria-hidden="true">🔥</span>
+                    <h3>Crispy and steaming, the way it should be</h3>
+                    <p>Freshly made, best when hot</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- MENU / CATALOG + GALLERY -->
         <section class="section" id="menu">
             <h2 class="section-title">Our Menu</h2>
             <p class="section-sub">Simple, tasty, and made for sharing. More flavors coming soon!</p>
@@ -55,22 +128,72 @@
 
             <h3 class="category-title">🌯 Lumpken <small>(Lumpiang Chicken)</small></h3>
             <div class="menu-grid" id="grid-lumpken"></div>
+
         </section>
 
         <!-- HOW TO ORDER -->
         <section class="section steps-section" id="how-to-order">
             <h2 class="section-title">How to Order</h2>
             <div class="steps">
-                <div class="step"><span class="step-num">1</span><h4>Pick your treats</h4><p>Tap “Add” on your favorites.</p></div>
+                <div class="step"><span class="step-num">1</span><h4>Pick your treats</h4><p>Tap “Add to Order” on your favorites.</p></div>
                 <div class="step"><span class="step-num">2</span><h4>Check your cart</h4><p>Adjust quantities, then checkout.</p></div>
                 <div class="step"><span class="step-num">3</span><h4>Enter your details</h4><p>Name, number, and delivery address.</p></div>
-                <div class="step"><span class="step-num">4</span><h4>Enjoy it hot!</h4><p>We’ll contact you to confirm your order.</p></div>
+                <div class="step"><span class="step-num">4</span><h4>Pay</h4><p>Cash on delivery, or scan our GCash QR and enter the reference number.</p></div>
+                <div class="step"><span class="step-num">5</span><h4>Enjoy it hot!</h4><p>We’ll contact you to confirm your order.</p></div>
+            </div>
+        </section>
+
+        <!-- PROMOTIONS / NEWS -->
+        <section class="section" id="news">
+            <h2 class="section-title">Promotions &amp; News</h2>
+            <p class="section-sub">What’s new at Tinamai at Lumpken.</p>
+            <div class="news-grid" id="news-grid"></div>
+        </section>
+
+        <!-- CUSTOMER REVIEWS -->
+        <section class="section" id="reviews">
+            <h2 class="section-title">Customer Reviews</h2>
+            <p class="section-sub">Real feedback from people who ordered from us.</p>
+            <div id="reviews-summary" class="reviews-summary"></div>
+            <div id="reviews-list" class="reviews-list"></div>
+            <div class="center-row">
+                <button id="rate-last-btn" class="btn btn-red" type="button" hidden>Rate your last order</button>
+            </div>
+        </section>
+
+        <!-- MARKETING TEAM -->
+        <section class="section" id="team">
+            <h2 class="section-title">Marketing Team</h2>
+            <p class="section-sub">The five partners behind your meryenda.</p>
+            <div class="team-grid" id="team-grid"></div>
+        </section>
+
+        <!-- CONTACT / ORDER -->
+        <section class="section" id="contact">
+            <h2 class="section-title">Contact / Order</h2>
+            <p class="section-sub">Order online, or reach us directly.</p>
+            <div class="contact-grid">
+                <article class="contact-card">
+                    <h3>Order online</h3>
+                    <p>Pick your items from the menu and check out. Pay by cash on delivery or GCash.</p>
+                    <a href="#menu" class="btn btn-red">Browse the menu</a>
+                </article>
+                <article class="contact-card">
+                    <h3>Call or text</h3>
+                    <p class="muted">For questions, special requests, or help with an order.</p>
+                    <p><a href="tel:+639674970565">+63 967 497 0565</a></p>
+                </article>
+                <article class="contact-card">
+                    <h3>Find us</h3>
+                    <p>Verdant Ave., Pamplona Tres, Las Piñas City</p>
+                    <p><a href="https://www.google.com/maps/search/?api=1&query=Verdant+Ave+Pamplona+Tres+Las+Pinas+City" target="_blank" rel="noopener">Open in Google Maps</a></p>
+                </article>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER / CONTACT -->
-    <footer class="footer" id="contact">
+    <!-- FOOTER -->
+    <footer class="footer">
         <img src="resources/Transparent IM Logo.png" alt="" width="72" height="72">
         <h3>Tinamai at Lumpken</h3>
         <p>📞 <a href="tel:+639674970565">+63 967 497 0565</a></p>
@@ -116,12 +239,21 @@
                 <label for="payment-method">Payment Method</label>
                 <select id="payment-method">
                     <option value="COD">Cash on Delivery (COD)</option>
-                    <option value="GCash">GCash</option>
+                    <option value="GCash">GCash (scan QR)</option>
                 </select>
 
                 <div id="gcash-box" class="gcash-box" hidden>
-                    <p>Send payment to <strong id="gcash-number">0917-XXX-XXXX</strong></p>
-                    <p>Please keep a screenshot of your receipt to show upon delivery.</p>
+                    <p class="gcash-title">Pay with GCash</p>
+                    <img id="gcash-qr" class="gcash-qr" src="resources/maya-qr.jpg" alt="GCash QR code for Tinamai at Lumpken" width="220" height="220">
+                    <p>Account number: <strong id="gcash-number">0917-XXX-XXXX</strong></p>
+                    <ol class="gcash-steps">
+                        <li>Open GCash and scan the QR code (or send to the number above).</li>
+                        <li>Pay exactly <strong>₱<span id="gcash-amount">0.00</span></strong>.</li>
+                        <li>Copy the 13-digit reference number from your receipt and enter it below.</li>
+                    </ol>
+                    <label for="payment-ref">GCash reference number</label>
+                    <input type="text" id="payment-ref" inputmode="numeric" maxlength="20" placeholder="e.g. 1234567890123" autocomplete="off">
+                    <p class="muted small">We check this number against our GCash records before we confirm your order.</p>
                 </div>
 
                 <div class="order-summary">
@@ -134,6 +266,78 @@
                 <button type="submit" id="submit-order-btn" class="btn btn-red full-width">Place Order</button>
             </form>
         </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <div class="modal-content">
+            <button type="button" id="auth-close" class="icon-btn close-btn" aria-label="Close">&times;</button>
+
+            <div id="auth-forms">
+                <h2 id="auth-title">Welcome</h2>
+                <div class="auth-tabs" role="tablist">
+                    <button type="button" id="tab-signin" class="auth-tab active" role="tab" aria-selected="true">Sign in</button>
+                    <button type="button" id="tab-signup" class="auth-tab" role="tab" aria-selected="false">Sign up</button>
+                </div>
+
+                <form id="signin-form" novalidate>
+                    <label for="si-email">Email</label>
+                    <input type="email" id="si-email" required autocomplete="email" placeholder="you@example.com">
+                    <label for="si-password">Password</label>
+                    <input type="password" id="si-password" required autocomplete="current-password">
+                    <p id="signin-error" class="form-error" role="alert" hidden></p>
+                    <button type="submit" id="signin-submit" class="btn btn-red full-width">Sign in</button>
+                </form>
+
+                <form id="signup-form" novalidate hidden>
+                    <label for="su-name">Full name</label>
+                    <input type="text" id="su-name" required autocomplete="name" placeholder="e.g. Juan Dela Cruz">
+                    <label for="su-phone">Mobile number <span class="optional">(optional, saves time at checkout)</span></label>
+                    <input type="tel" id="su-phone" autocomplete="tel" placeholder="e.g. 09171234567">
+                    <label for="su-email">Email</label>
+                    <input type="email" id="su-email" required autocomplete="email" placeholder="you@example.com">
+                    <label for="su-password">Password <span class="optional">(at least 8 characters)</span></label>
+                    <input type="password" id="su-password" required autocomplete="new-password" minlength="8">
+                    <p id="signup-error" class="form-error" role="alert" hidden></p>
+                    <p id="signup-info" class="form-info" role="status" hidden></p>
+                    <button type="submit" id="signup-submit" class="btn btn-red full-width">Create account</button>
+                </form>
+            </div>
+
+            <div id="auth-account" hidden>
+                <h2>Your account</h2>
+                <p class="account-line"><strong id="acct-name"></strong></p>
+                <p class="account-line muted" id="acct-email"></p>
+                <p class="muted small">Your name and number are filled in automatically when you check out.</p>
+                <button type="button" id="signout-btn" class="btn btn-red full-width">Sign out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEEDBACK MODAL (opens after an order) -->
+    <div id="feedback-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+        <div class="modal-content">
+            <button type="button" id="feedback-close" class="icon-btn close-btn" aria-label="Close">&times;</button>
+            <h2 id="feedback-title">Thanks for your order! 🎉</h2>
+            <p class="muted">Tell us how we did. Tap the stars for any item you want to rate. You can also do this later, after you’ve tried your order.</p>
+            <form id="feedback-form" novalidate>
+                <div id="feedback-items"></div>
+                <label for="feedback-comment">Comments <span class="optional">(optional)</span></label>
+                <textarea id="feedback-comment" rows="3" maxlength="300" placeholder="What did you like? What can we do better?"></textarea>
+                <p id="feedback-error" class="form-error" role="alert" hidden></p>
+                <button type="submit" id="feedback-submit" class="btn btn-red full-width">Send feedback</button>
+                <button type="button" id="feedback-later" class="btn-link">Maybe later</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- GALLERY LIGHTBOX -->
+    <div id="lightbox" class="modal lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button type="button" id="lightbox-close" class="icon-btn close-btn lightbox-close" aria-label="Close photo">&times;</button>
+        <figure>
+            <img id="lightbox-img" src="" alt="">
+            <figcaption id="lightbox-cap"></figcaption>
+        </figure>
     </div>
 
     <!-- SUCCESS TOAST -->
