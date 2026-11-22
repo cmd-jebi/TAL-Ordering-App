@@ -5,6 +5,22 @@
 const PHONE_PATTERN = /^(09|\+639|639)\d{9}$/;
 const GCASH_REF_PATTERN = /^\d{13}$/;
 
+// Best-effort limit per visitor address: 5 requests per 10 minutes.
+// (Netlify may run several copies of this function, so this slows spam down but is not airtight.)
+const hits = new Map();
+const WINDOW_MS = 10 * 60 * 1000;
+const MAX_PER_WINDOW = 5;
+function tooManyRequests(ip) {
+    const now = Date.now();
+    const recent = (hits.get(ip) || []).filter(t => now - t < WINDOW_MS);
+    recent.push(now);
+    hits.set(ip, recent);
+    if (hits.size > 500) {
+        for (const [key, times] of hits) if (!times.some(t => now - t < WINDOW_MS)) hits.delete(key);
+    }
+    return recent.length > MAX_PER_WINDOW;
+}
+
 const text = (value, max) => String(value == null ? "" : value).trim().slice(0, max);
 const peso = n => Number(n).toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const reply = (statusCode, body) => ({
@@ -16,6 +32,10 @@ const reply = (statusCode, body) => ({
 exports.handler = async (event) => {
     if (event.httpMethod !== "POST") return reply(405, { error: "Method not allowed" });
     if ((event.body || "").length > 10000) return reply(413, { error: "Request too large" });
+
+    const headers = event.headers || {};
+    const ip = headers["x-nf-client-connection-ip"] || (headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
+    if (tooManyRequests(ip)) return reply(429, { error: "Too many orders. Please wait a few minutes." });
 
     const webhook = process.env.DISCORD_WEBHOOK_URL;
     if (!webhook) {
