@@ -222,6 +222,9 @@ async function submitOrder(event) {
     if (!address) return showError("Please enter your delivery address.", addressEl);
     if (cart.length === 0) return showError("Your cart is empty.");
 
+    if (!$("privacy-consent").checked) return showError("Please tick the box to agree to the Privacy Notice.", $("privacy-consent"));
+    const waitMs = 60000 - (Date.now() - Number(localStorage.getItem("tal_last_order") || 0));
+    if (waitMs > 0) return showError(`Please wait ${Math.ceil(waitMs / 1000)} seconds before placing another order.`);
     const refEl = $("payment-ref");
     const reference = refEl.value.replace(/\s/g, "");
     if (payment === "GCash" && !GCASH_REF_PATTERN.test(reference)) {
@@ -246,12 +249,14 @@ async function submitOrder(event) {
     // A. Save to Supabase (the database record)
     let saved = false;
     let duplicateRef = false;
+    let rateLimited = false;
     if (sb) {
         try {
             await saveOrder(order);
             saved = true;
         } catch (err) {
             if (err && err.code === "23505") duplicateRef = true;
+            else if (err && /rate_limit/.test(err.message || "")) rateLimited = true;
             else console.error("[TAL] Supabase save FAILED:", err);
         }
     } else {
@@ -262,6 +267,12 @@ async function submitOrder(event) {
         btn.disabled = false;
         btn.textContent = "Place Order";
         return showError("That reference number was already used on another order. Please check your receipt.", refEl);
+    }
+    
+    if (rateLimited) {
+        btn.disabled = false;
+        btn.textContent = "Place Order";
+        return showError("You've placed several orders recently. Please wait a while, or call us at +63 967 497 0565 if you need help.");
     }
 
     // B. Notify the kitchen on Discord (so an order is never lost if the database fails)
@@ -283,6 +294,7 @@ async function submitOrder(event) {
     closeCheckout();
     showToast("🎉 Order placed! We'll contact you shortly.", 5000);
     queueFeedback(orderedItems, name);
+    try { localStorage.setItem("tal_last_order", String(Date.now())); } catch { /* storage unavailable */ }
 }
 
 // Saves an order. If the database does not have the newer columns yet (see supabase-setup.sql),
@@ -690,3 +702,16 @@ updateAuthUI();
 initAuth();
 refreshRateButton();
 loadReviews();
+
+// ===== Privacy Notice popup =====
+document.addEventListener("click", e => {
+    const link = e.target.closest("[data-open-privacy]");
+    if (!link) return;
+    e.preventDefault();
+    $("privacy-modal").classList.add("show");
+});
+const closePrivacy = () => $("privacy-modal").classList.remove("show");
+$("privacy-close").addEventListener("click", closePrivacy);
+$("privacy-ok").addEventListener("click", closePrivacy);
+$("privacy-modal").addEventListener("click", e => { if (e.target.id === "privacy-modal") closePrivacy(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closePrivacy(); });
